@@ -18,9 +18,7 @@ trait ApiResponserTrait
 
     protected function custom_validation($validator){
         $messages= Arr::flatten($validator->messages()->get('*'));
-        return [
-            'status'=>false,
-            'errors'=>$messages
-        ];
+        $response= ['status'=>false, 'errors'=>$messages];
+        return response()->json($response, 422);
     }
 }

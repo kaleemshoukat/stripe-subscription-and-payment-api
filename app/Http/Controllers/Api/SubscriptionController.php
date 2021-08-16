@@ -10,6 +10,7 @@ use App\Models\Subscription;
 use App\Models\User;
 use App\Traits\ApiResponserTrait;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
@@ -45,7 +46,7 @@ class SubscriptionController extends Controller
             $product->stripe_product_id=$stripe_product->id;
             $product->save();
 
-            return $this->success('Product created successfully.');
+            return $this->success('Product created successfully.', null, Response::HTTP_CREATED);
         }
         catch (\Exception $e){
             return $this->error($e->getMessage());
@@ -91,7 +92,7 @@ class SubscriptionController extends Controller
             $product_price->stripe_price_id=$stripe_price->id;
             $product_price->save();
 
-            return $this->success('Product price created successfully.');
+            return $this->success('Product price created successfully.', null, Response::HTTP_CREATED);
         }
         catch (\Exception $e){
             return $this->error($e->getMessage());
@@ -152,7 +153,7 @@ class SubscriptionController extends Controller
             $subscription->stripe_subscription_id=$stripe_subscription->id;
             $subscription->save();
 
-            return $this->success('User subscribed to selected package successfully.');
+            return $this->success('User subscribed to selected package successfully.', null, Response::HTTP_OK);
         }
         catch (\Exception $e){
             return $this->error($e->getMessage());
