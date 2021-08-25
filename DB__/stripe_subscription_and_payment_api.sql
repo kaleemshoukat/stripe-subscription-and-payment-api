@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 10, 2021 at 06:03 PM
+-- Generation Time: Aug 25, 2021 at 09:55 AM
 -- Server version: 10.4.19-MariaDB
 -- PHP Version: 7.4.20
 
@@ -90,6 +90,7 @@ CREATE TABLE `oauth_access_tokens` (
 
 INSERT INTO `oauth_access_tokens` (`id`, `user_id`, `client_id`, `name`, `scopes`, `revoked`, `created_at`, `updated_at`, `expires_at`) VALUES
 ('6349aa5b2b51357733338f00e97c0aea7f357ab21d14a5b26bed681ac167954cd0c058f90838a986', 4, 1, 'Password Grant to User', '[]', 0, '2021-08-10 09:35:11', '2021-08-10 09:35:11', '2022-08-10 14:35:11'),
+('bd7c32365d7fdc59250b1757bf12073b413ccef43eec1ac305a0719818d99e3c05064b7c26c42af0', 4, 1, 'Password Grant to User', '[]', 0, '2021-08-25 02:04:48', '2021-08-25 02:04:48', '2022-08-25 07:04:48'),
 ('bf29663cc7c9fcc6611cdd158e5c596ded6581e02fd9be48bde4fa247350d31b5d5e6f17a4eee218', 4, 1, 'Password Grant to User', '[]', 1, '2021-08-10 09:32:24', '2021-08-10 09:32:24', '2022-08-10 14:32:24');
 
 -- --------------------------------------------------------
@@ -248,7 +249,8 @@ CREATE TABLE `subscriptions` (
 --
 
 INSERT INTO `subscriptions` (`id`, `user_id`, `product_price_id`, `stripe_subscription_id`, `status`, `created_at`, `updated_at`) VALUES
-(1, 4, 1, 'sub_K0z3IHK5Shyhy2', 0, '2021-08-10 10:41:49', '2021-08-10 10:53:54');
+(1, 4, 1, 'sub_K0z3IHK5Shyhy2', 0, '2021-08-10 10:41:49', '2021-08-10 10:53:54'),
+(2, 4, 2, 'sub_K6TAQtqcqyz2IM', 1, '2021-08-25 02:08:40', '2021-08-25 02:42:32');
 
 -- --------------------------------------------------------
 
@@ -415,7 +417,7 @@ ALTER TABLE `product_prices`
 -- AUTO_INCREMENT for table `subscriptions`
 --
 ALTER TABLE `subscriptions`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -437,7 +439,7 @@ ALTER TABLE `product_prices`
 -- Constraints for table `subscriptions`
 --
 ALTER TABLE `subscriptions`
-  ADD CONSTRAINT `subscriptions_product_price_id_foreign` FOREIGN KEY (`product_price_id`) REFERENCES `products` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `subscriptions_product_price_id_foreign` FOREIGN KEY (`product_price_id`) REFERENCES `product_prices` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `subscriptions_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
 COMMIT;
 

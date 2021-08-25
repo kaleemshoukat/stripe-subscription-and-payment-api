@@ -18,7 +18,7 @@ class CreateSubscriptionsTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
             $table->unsignedBigInteger('product_price_id');
-            $table->foreign('product_price_id')->references('id')->on('products')->onDelete('cascade');
+            $table->foreign('product_price_id')->references('id')->on('product_prices')->onDelete('cascade');
             $table->string('stripe_subscription_id');
             $table->string('status')->default(1);
             $table->timestamps();

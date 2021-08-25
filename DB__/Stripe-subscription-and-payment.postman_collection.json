@@ -341,20 +341,56 @@
 					]
 				},
 				"url": {
-					"raw": "http://127.0.0.1:8000/api/v1/user/create-subscription",
-					"protocol": "http",
+					"raw": "{{base_url}}/api/v1/user/create-subscription",
 					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
+						"{{base_url}}"
 					],
-					"port": "8000",
 					"path": [
 						"api",
 						"v1",
 						"user",
 						"create-subscription"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Change subscription (upgrade/downgrade)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "product_price_id",
+							"value": "2",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}/api/v1/user/change-subscription",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"user",
+						"change-subscription"
 					]
 				}
 			},
@@ -384,15 +420,10 @@
 					"formdata": []
 				},
 				"url": {
-					"raw": "http://127.0.0.1:8000/api/v1/user/cancel-subscription",
-					"protocol": "http",
+					"raw": "{{base_url}}/api/v1/user/cancel-subscription",
 					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
+						"{{base_url}}"
 					],
-					"port": "8000",
 					"path": [
 						"api",
 						"v1",

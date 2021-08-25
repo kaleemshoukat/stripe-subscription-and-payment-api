@@ -28,6 +28,7 @@ Route::group(['prefix'=> 'v1'], function () {
         Route::post('/create-price', [SubscriptionController::class, 'createPrice']);
 
         Route::post("/create-subscription", [SubscriptionController::class, 'createSubscription']);
+        Route::post("/change-subscription", [SubscriptionController::class, 'changeSubscription']);
         Route::get("/cancel-subscription", [SubscriptionController::class, 'cancelSubscription']);
 
         //stripe payment

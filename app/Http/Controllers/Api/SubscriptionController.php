@@ -160,27 +160,66 @@ class SubscriptionController extends Controller
         }
     }
 
+    public function changeSubscription(Request $request){
+        $validator = Validator::make($request->all(),[
+            'product_price_id'=>'required',
+        ]);
+        if ($validator->fails()) {
+            return $this->custom_validation($validator);
+        }
+
+        try {
+            $subscription = Subscription::where(['user_id' => Auth::user()->id, 'status' => SubscriptionStatus::ACTIVE])->orderBy('id', 'DESC')->first();
+            if ($subscription) {
+                $product_price=ProductPrice::find($request->product_price_id);
+
+                $subscription_retrieve = $this->stripe->subscriptions->retrieve($subscription->stripe_subscription_id);
+                $update = $this->stripe->subscriptions->update($subscription->stripe_subscription_id, [
+                    'cancel_at_period_end' => false,
+                    'proration_behavior' => 'create_prorations',
+                    'items' => [
+                        [
+                            'id' => $subscription_retrieve->items->data[0]->id,
+                            'price' => $product_price->stripe_price_id,
+                        ],
+                    ],
+                ]);
+
+                //update subscription details
+                $subscription->product_price_id=$request->product_price_id;
+                $subscription->save();
+
+                return $this->success('User package updated successfully.');
+            }
+            else {
+                return $this->error('User do not have any subscription');
+            }
+        }
+        catch (\Exception $e){
+            return $this->error($e->getMessage());
+        }
+    }
+
     public function cancelSubscription(){
-        $subscription=Subscription::where(['user_id'=>Auth::user()->id, 'status'=>SubscriptionStatus::ACTIVE])->orderBy('id', 'DESC')->first();
-        if ($subscription){
-            try {
+        try {
+            $subscription = Subscription::where(['user_id' => Auth::user()->id, 'status' => SubscriptionStatus::ACTIVE])->orderBy('id', 'DESC')->first();
+            if ($subscription) {
                 $this->stripe->subscriptions->cancel(
                     $subscription->stripe_subscription_id,
                     []
                 );
 
                 //update status
-                $subscription->status=SubscriptionStatus::DISABLED;
+                $subscription->status = SubscriptionStatus::DISABLED;
                 $subscription->save();
 
                 return $this->success('User subscription cancelled successfully.');
-            }
-            catch (\Exception $e){
-                return $this->error($e->getMessage());
+            } else {
+                return $this->error('User do not have any subscription');
             }
         }
-        else{
-            return $this->error('User do not have any subscription');
+        catch (\Exception $e){
+            return $this->error($e->getMessage());
         }
     }
 
