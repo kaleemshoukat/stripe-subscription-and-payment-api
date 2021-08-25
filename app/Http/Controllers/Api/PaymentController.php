@@ -48,9 +48,16 @@ class PaymentController extends Controller
                 $charge = $this->stripe->charges->create([
                     'amount' => 5000,
                     'currency' => 'usd',
-                    'description' => 'Payment is reserved for shop box.',
+                    'description' => 'Payment is reserved for stripe api project.',
                     'source' => $token->id,
+                    //"capture"=> false,      //payment will not be captured only it will be holded in stripe account
                 ]);
+
+                //to capture payment use this
+//                $capture=$this->stripe->charges->capture(
+//                    $charge->id,
+//                    []
+//                );
 
                 $user->stripe_charge_id=$charge->id;
                 $user->save();
